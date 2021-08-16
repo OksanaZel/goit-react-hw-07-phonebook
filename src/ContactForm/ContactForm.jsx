@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { Form, Label, Input, Button } from "./ContactForm.styled";
 // import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
-import contactsActions from "../redux/phoneBook-actions";
+import {phoneBookActions} from "../redux/contacts";
 
 export default function ContactForm(/*{ onSubmit }*/) {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export default function ContactForm(/*{ onSubmit }*/) {
          .required('Oбязательное поле'),
      }),
      onSubmit: (values, { setSubmitting, resetForm }) => {
-       dispatch(contactsActions.addContact(values.name, values.number)),
+       dispatch(phoneBookActions.addContact(values.name, values.number)),
          setSubmitting(false),
          resetForm()
      },

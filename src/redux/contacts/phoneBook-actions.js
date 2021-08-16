@@ -1,11 +1,9 @@
-// import actionsTypes from "../redux/phoneBook-types";
 import { createAction } from '@reduxjs/toolkit';
-import { nanoid } from "nanoid";
 
 const addContact = createAction("phoneBook/addContact", (name, number) => {    
     return {
         payload: {
-        id: nanoid(5),
+        // id: nanoid(5),
         name,
         number,
     }
@@ -14,6 +12,11 @@ const addContact = createAction("phoneBook/addContact", (name, number) => {
 
 const deleteContact = createAction("phoneBook/deleteContact");
 const changeFilter = createAction("phoneBook/changeFilter");
+
+
+// export const fetchContactsRequest = createAction("contacts/fetchContactsRequest");
+// export const fetchContactsSuccess = createAction("contacts/fetchContactsSuccess");
+// export const fetchContactsError = createAction("contacts/fetchContactsError");
 
 // const addContact = (name, number) => ({
 //     type: actionsTypes.ADD,

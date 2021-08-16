@@ -1,29 +1,33 @@
-import React from "react";
-// import PropTypes from "prop-types";
-// import { connect } from "react-redux";
+import React, {useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import contactsActions from "../redux/phoneBook-actions";
 import { GoPrimitiveDot } from "react-icons/go";
 import {AiOutlineUserDelete} from "react-icons/ai"
-import { ContactListContainer, ContactListItem, Button} from "./ContactList.styled";
+import { ContactListContainer, ContactListItem, Button } from "./ContactList.styled";
+import { phoneBookOperations, phoneBookSelectors, phoneBookActions } from "../redux/contacts";
 
-export default function ContactList(/*{ contacts, onDeleteContact }*/) {
+
+export default function ContactList() {
     
-     const getVisibleContact = (allContacts, filter) => {
-    const normalizedFilter = filter.toLowerCase();
-    return allContacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
-  }
-    const contacts = useSelector(({contacts:{items, filter}}) => getVisibleContact(items,filter));
-
+//      const getVisibleContact = (allContacts, filter) => {
+//     const normalizedFilter = filter.toLowerCase();
+//     return allContacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
+//   }
+//     const contacts = useSelector(({contacts:{items, filter}}) => getVisibleContact(items,filter));
+    
+    const contacts = useSelector(phoneBookSelectors.getContacts);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(phoneBookOperations.fetchContacts());
+    }, [dispatch])
 
     return (
         <ContactListContainer>
-            {contacts.map(({id, name, number}) => (
+            {contacts.length > 0 && contacts.map(({id, name, number}) => (
                 <ContactListItem key={id}>
                     <GoPrimitiveDot/>
                     {name}: {number}
-                    <Button onClick={() => dispatch(contactsActions.deleteContact(id))}>
+                    <Button onClick={() => dispatch(phoneBookActions.deleteContact(id))}>
                         <AiOutlineUserDelete />
                         Delete</Button>
                 </ContactListItem>
@@ -31,27 +35,3 @@ export default function ContactList(/*{ contacts, onDeleteContact }*/) {
         </ContactListContainer>
     )
 }
-
-//  const getVisibleContact = (allContacts, filter) => {
-//     const normalizedFilter = filter.toLowerCase();
-//     return allContacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
-//   }
-
-// const mapStateToProps = ({ contacts: { items, filter } }) => ({
-//     contacts: getVisibleContact(items, filter)
-// })
-
-// const mapDispatchToProps = dispatch => ({
-//     onDeleteContact: (id) => dispatch(contactsActions.deleteContact(id)),
-// })
-
-// ContactList.propTypes = {
-//     contacts: PropTypes.arrayOf(PropTypes.shape({
-//         id: PropTypes.string,
-//         name: PropTypes.string,
-//         number: PropTypes.string,
-//     })),
-//     onDeleteContact: PropTypes.func,
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
