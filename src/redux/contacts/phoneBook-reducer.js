@@ -3,7 +3,6 @@ import { createReducer } from '@reduxjs/toolkit';
 // import * as phoneBookActions from "./phoneBook-actions";
 import { fetchContacts } from "./phoneBook-operations";
 
-
 const items = createReducer([], {
     [fetchContacts.fulfilled]: (_, action) => action.payload,
 });

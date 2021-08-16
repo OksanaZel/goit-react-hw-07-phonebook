@@ -7,7 +7,7 @@ export const fetchContacts = createAsyncThunk("contacts/fetchContacts", async (_
         const contacts = await contactsApi.fetchContacts();
         return contacts;
     } catch (error) {
-        return rejectWithValue(error)
+        return rejectWithValue(error);
     }
 }
 );

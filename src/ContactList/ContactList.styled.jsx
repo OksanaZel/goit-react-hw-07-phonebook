@@ -10,7 +10,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 margin-bottom: 25px;
-max-width: 450px;
+max-width: 550px;
 
 & svg {
     width: 18px;
