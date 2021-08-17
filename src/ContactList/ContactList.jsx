@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { GoPrimitiveDot } from "react-icons/go";
 import { AiOutlineUserDelete } from "react-icons/ai"
-// import Spinner from "../Spinner";
 import { ContactListContainer, ContactListItem, Button } from "./ContactList.styled";
 import { phoneBookOperations, phoneBookSelectors} from "redux/contacts";
 
@@ -16,7 +15,6 @@ export default function ContactList() {
     const contacts = useSelector(phoneBookSelectors.getVisibleContacts);
 
     return (
-        <>
         <ContactListContainer>
             {contacts.length > 0 && contacts.map(({id, name, number}) => (
                 <ContactListItem key={id}>
@@ -28,6 +26,5 @@ export default function ContactList() {
                 </ContactListItem>
             ))}
         </ContactListContainer>
-        </>
     )
 }
