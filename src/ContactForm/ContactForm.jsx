@@ -1,15 +1,14 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import * as Yup from 'yup';
 import { IoPersonAddOutline } from "react-icons/io5"
 import { useFormik } from "formik";
 import { Form, Label, Input, Button } from "./ContactForm.styled";
-// import { connect } from "react-redux";
-import { useDispatch } from "react-redux";
-import {phoneBookActions} from "../redux/contacts";
+import { useDispatch, useSelector} from "react-redux";
+import { phoneBookOperations, phoneBookSelectors} from "redux/contacts";
 
-export default function ContactForm(/*{ onSubmit }*/) {
+export default function ContactForm() {
   const dispatch = useDispatch();
+  const contacts = useSelector(phoneBookSelectors.getContacts)
 
    const formik = useFormik({
      initialValues: {
@@ -18,14 +17,16 @@ export default function ContactForm(/*{ onSubmit }*/) {
      },
      validationSchema: Yup.object({
        name: Yup.string()
-         .matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/, 'Имя может состоять только из букв, апострофа, тире и пробелов.')
+         .matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
+           'Имя может состоять только из букв, апострофа, тире и пробелов.')
+         .notOneOf(contacts.map(contact => contact.name), "Такой контакт уже существует")
          .required('Oбязательное поле'),
        number: Yup.string()
          .matches(/\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/, 'Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +')
          .required('Oбязательное поле'),
      }),
      onSubmit: (values, { setSubmitting, resetForm }) => {
-       dispatch(phoneBookActions.addContact(values.name, values.number)),
+       dispatch(phoneBookOperations.addContact({ name: values.name, number: values.number })),
          setSubmitting(false),
          resetForm()
      },
@@ -62,14 +63,3 @@ export default function ContactForm(/*{ onSubmit }*/) {
     </Form>
   );
 }
-
-// ContactForm.propTypes = {
-//     onSubmit: PropTypes.func,
-// }
-
-// const mapDispatchToProps = dispatch => ({
-//   onSubmit: (({ name, number }) => dispatch(contactsActions.addContact(name, number))
-//   )
-// })
-
-// export default connect(null, mapDispatchToProps)(ContactForm);
